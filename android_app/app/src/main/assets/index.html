@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>قلم نوری و ماوس هوشمند</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app-container">
+        <!-- پیام راهنما در صورت عمودی بودن گوشی -->
+        <div id="portrait-warning" class="portrait-warning hidden">
+            <span>📱 برای استفاده راحت‌تر و تناسب با صفحه کامپیوتر، گوشی را <b>افقی (Landscape)</b> بچرخانید.</span>
+            <button class="rotate-hint-btn" onclick="toggleFullScreen()">🔄 چرخش افقی و تمام‌صفحه</button>
+        </div>
+
+        <header id="top-bar">
+            <div class="status-indicator">
+                <span id="status-dot" class="dot disconnected"></span>
+                <span id="status-text">در حال اتصال...</span>
+            </div>
+
+            <div class="mode-switch-group">
+                <button id="btn-mode-draw" class="mode-btn active" onclick="setMode('draw')">
+                    <span class="btn-icon">✏️</span>
+                    <span class="btn-label">Draw</span>
+                </button>
+                <button id="btn-mode-mouse" class="mode-btn" onclick="setMode('mouse')">
+                    <span class="btn-icon">🖱️</span>
+                    <span class="btn-label">Mouse</span>
+                </button>
+                <button id="btn-mode-spotlight" class="mode-btn spotlight-tab" onclick="setMode('spotlight')">
+                    <span class="btn-icon">🔦</span>
+                    <span class="btn-label">Spotlight</span>
+                </button>
+            </div>
+
+            <div class="actions-group">
+                <a href="https://github.com/shayansjdi" target="_blank" rel="noopener noreferrer" class="dev-link"
+                    title="سازنده برنامه">Developed by <span
+                        style="color:#38bdf8; font-weight:bold; text-decoration:underline;">Shayan</span> ↗</a>
+                <button id="btn-fullscreen" class="icon-btn" onclick="toggleFullScreen()"
+                    title="تمام‌صفحه و چرخش افقی">⛶</button>
+            </div>
+        </header>
+
+        <div id="main-workspace">
+            <div id="pad-container">
+                <canvas id="pad-canvas"></canvas>
+                <div id="touchpad-hint" class="touchpad-hint hidden">
+                    <p id="mouse-hint-title">صفحه لمسی ماوس</p>
+                    <small id="mouse-hint-desc">حرکت با یک انگشت | ضربه = کلیک | دو انگشت = راست کلیک و اسکرول</small>
+                </div>
+                <div id="spotlight-hint" class="touchpad-hint hidden">
+                    <p>🔦 نورافکن ارائه (Spotlight)</p>
+                    <small>انگشت خود را بکشید تا نورافکن روی دسکتاپ حرکت کند | ضربه = کلیک</small>
+                </div>
+            </div>
+
+            <aside id="side-palette" class="side-palette">
+                <div class="palette-title">رنگ‌ها و پاک‌کن</div>
+                <div class="colors-list">
+                    <button class="color-btn active" data-color="#FF3B30" style="--c: #FF3B30;" title="قرمز"
+                        onclick="selectColor('#FF3B30', this)"></button>
+                    <button class="color-btn" data-color="#007AFF" style="--c: #007AFF;" title="آبی"
+                        onclick="selectColor('#007AFF', this)"></button>
+                    <button class="color-btn" data-color="#34C759" style="--c: #34C759;" title="سبز"
+                        onclick="selectColor('#34C759', this)"></button>
+                    <button class="color-btn" data-color="#FFCC00" style="--c: #FFCC00;" title="زرد"
+                        onclick="selectColor('#FFCC00', this)"></button>
+                    <button class="color-btn" data-color="#AF52DE" style="--c: #AF52DE;" title="بنفش"
+                        onclick="selectColor('#AF52DE', this)"></button>
+
+                    <!-- پاک‌کن موضعی (پاک کردن فقط جایی که قلم می‌کشیم) -->
+                    <button id="btn-eraser" class="color-btn eraser-btn" data-color="eraser" title="پاک‌کن موضعی"
+                        onclick="selectEraser(this)">
+                        <span class="eraser-icon">🧽</span>
+                    </button>
+                </div>
+
+                <div class="palette-divider"></div>
+
+                <div class="palette-title">اندازه</div>
+                <div class="brush-sizes">
+                    <button class="size-btn" onclick="setBrushSize(3, this)" title="نازک"><span
+                            class="dot-size s-thin"></span></button>
+                    <button class="size-btn active" onclick="setBrushSize(6, this)" title="متوسط"><span
+                            class="dot-size s-med"></span></button>
+                    <button class="size-btn" onclick="setBrushSize(14, this)" title="ضخیم"><span
+                            class="dot-size s-thick"></span></button>
+                </div>
+
+                <div class="palette-divider"></div>
+
+                <button class="action-btn clear-btn" onclick="clearScreen()" title="پاک کردن یکباره کل صفحه">
+                    <span class="btn-icon">🗑️</span>
+                    <span>پاک کل</span>
+                </button>
+
+                <button id="btn-draw-target" class="action-btn target-btn" onclick="toggleDrawTarget()"
+                    title="تغییر حالت رسم: روی دسکتاپ یا داخل نرم‌افزار پی‌دی‌اف برای ذخیره‌سازی">
+                    <span id="target-icon">🖥️</span>
+                    <span id="target-label">دسکتاپ</span>
+                </button>
+            </aside>
+
+            <!-- پنل ابزارهای اختصاصی نورافکن (Spotlight) -->
+            <aside id="spotlight-palette" class="side-palette hidden">
+                <div class="palette-title">اندازه نور</div>
+                <button class="action-btn" id="btn-spot-sm" onclick="setSpotlightSize(85, this)" title="نورافکن کوچک">
+                    <span class="btn-icon">▫️</span>
+                    <span>کوچک</span>
+                </button>
+                <button class="action-btn active" id="btn-spot-med" onclick="setSpotlightSize(140, this)"
+                    title="نورافکن متوسط">
+                    <span class="btn-icon">🟡</span>
+                    <span>متوسط</span>
+                </button>
+                <button class="action-btn" id="btn-spot-lg" onclick="setSpotlightSize(230, this)" title="نورافکن بزرگ">
+                    <span class="btn-icon">⭕</span>
+                    <span>بزرگ</span>
+                </button>
+
+                <div class="palette-divider"></div>
+
+                <button id="btn-spot-laser" class="action-btn active" onclick="toggleSpotlightLaser()"
+                    title="نقطه لیزر در مرکز نورافکن">
+                    <span class="btn-icon">🔴</span>
+                    <span id="laser-label">لیزر روشن</span>
+                </button>
+            </aside>
+        </div>
+
+        <!-- نوار دکمه‌های پایین در حالت Mouse (شامل قلم PDF، کلیک، دابل کلیک، راست کلیک، درگ) -->
+        <footer id="mouse-controls-bar" class="mouse-controls-bar hidden">
+            <!-- دکمه ویژه نوشتن و ذخیره در PDF و نرم‌افزارها -->
+            <button id="btn-pdf-pen" class="mouse-action-btn pen-toggle-btn" onclick="togglePdfPen()"
+                title="با فعال بودن این گزینه، با لمس و حرکت صفحه به راحتی در Acrobat بنویسید">
+                <span class="m-icon">🖊️</span>
+                <span id="pdf-pen-text" class="m-text">قلم PDF</span>
+            </button>
+            <button class="mouse-action-btn" onpointerdown="sendMouseAction('click', 'left')">
+                <span class="m-icon">👆</span>
+                <span class="m-text">کلیک</span>
+            </button>
+            <button class="mouse-action-btn" onpointerdown="sendMouseAction('dblclick')">
+                <span class="m-icon">⚡</span>
+                <span class="m-text">دابل کلیک</span>
+            </button>
+            <button class="mouse-action-btn" onpointerdown="sendMouseAction('click', 'right')">
+                <span class="m-icon">🔘</span>
+                <span class="m-text">راست کلیک</span>
+            </button>
+            <button id="btn-drag-toggle" class="mouse-action-btn" onclick="toggleDrag()">
+                <span class="m-icon">✊</span>
+                <span id="drag-text" class="m-text">درگ</span>
+            </button>
+        </footer>
+
+        <div id="toast-msg" class="toast-msg hidden"></div>
+
+        <!-- صفحه احراز هویت امنیتی (PIN Modal) -->
+        <div id="pin-modal" class="pin-modal hidden">
+            <div class="pin-card">
+                <div class="pin-icon">🔐</div>
+                <h3>احراز هویت امن اتصال</h3>
+                <p>کد ۴ رقمی (PIN) نمایش‌داده‌شده در پنجره کامپیوتر را وارد کنید:</p>
+                <input id="pin-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="••••" autocomplete="off">
+                <div id="pin-error" class="pin-error hidden">❌ کد امنیتی اشتباه است یا دسترسی موقتاً مسدود شده.</div>
+                <button id="btn-pin-submit" class="pin-submit-btn" onclick="submitPin()">اتصال امن به کامپیوتر</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

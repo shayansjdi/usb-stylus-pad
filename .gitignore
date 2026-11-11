@@ -1,0 +1,76 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.venv/
+venv/
+ENV/
+env/
+
+# =========================
+# Environment & Secrets
+# =========================
+.env
+.env.*
+*.pem
+*.key
+*.crt
+*.p12
+*.jks
+*.keystore
+
+# =========================
+# Android Studio / Gradle
+# =========================
+android_app/.gradle/
+android_app/build/
+android_app/app/build/
+android_app/app/release/
+android_app/app/debug/
+android_app/local.properties
+android_app/.idea/
+android_app/*.iml
+android_app/captures/
+android_app/.externalNativeBuild/
+android_app/.cxx/
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# =========================
+# IDEs & Editors
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# =========================
+# OS & Logs
+# =========================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+

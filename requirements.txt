@@ -1,0 +1,3 @@
+# Galam Noori requires ZERO third-party PyPI dependencies.
+# It runs exclusively on Python 3.8+ standard library (tkinter, ctypes, http.server, socketserver, secrets, etc.).
+
