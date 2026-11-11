@@ -1,4 +1,4 @@
-# قلم نوری، ماوس و نورافکن هوشمند موبایل برای ویندوز (Galam Noori) ✏️🖱️🔦
+# USB Stylus Pad (Galam Noori) — قلم نوری، ماوس و نورافکن هوشمند موبایل برای ویندوز ✏️🖱️🔦
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python" alt="Python 3.8+" />
@@ -52,8 +52,8 @@
 
 ### گام ۲: دریافت پروژه
 ```bash
-git clone https://github.com/shayansjdi/Galam-Noori.git
-cd Galam-Noori
+git clone https://github.com/shayansjdi/usb-stylus-pad.git
+cd usb-stylus-pad
 ```
 *(یا فایل ZIP پروژه را از گیت‌هاب دانلود و اکسترکت کنید).*
 
@@ -103,7 +103,7 @@ python pc_server/server.py
 ## 🏗️ معماری و ساختار فایل‌های پروژه
 
 ```text
-Galam-Noori/
+usb-stylus-pad/
 │
 ├── start.bat                    # اجرای تک‌کلیکی سرور در ویندوز
 ├── requirements.txt             # اطلاع‌رسانی عدم نیاز به پکیج خارجی (Standard Library Only)

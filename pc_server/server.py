@@ -58,7 +58,7 @@ def _validate_target(target):
 class DesktopApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("قلم نوری و ماوس هوشمند | Galam Noori")
+        self.root.title("قلم نوری و ماوس هوشمند | USB Stylus Pad")
         self.root.geometry("540x740")
         self.root.minsize(500, 680)
         self.root.configure(bg="#121214")

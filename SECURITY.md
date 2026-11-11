@@ -2,7 +2,7 @@
 
 ## 🛡️ Built-in Security Safeguards
 
-Because **Galam Noori** exposes a local HTTP/WebSocket control server capable of simulating Windows mouse and stylus input, strict security controls are built into the core server (`pc_server/websocket_server.py` and `pc_server/server.py`):
+Because **USB Stylus Pad (Galam Noori)** exposes a local HTTP/WebSocket control server capable of simulating Windows mouse and stylus input, strict security controls are built into the core server (`pc_server/websocket_server.py` and `pc_server/server.py`):
 
 1. **Session PIN Authentication (احراز هویت با کد تصادفی):**
    - On every startup, the server generates a cryptographically random 4-digit PIN using Python's `secrets` module.

@@ -1,6 +1,6 @@
 @echo off
 setlocal
-title Galam Noori - Pen and Mouse Server
+title USB Stylus Pad (Galam Noori) - Pen and Mouse Server
 
 cd /d "%~dp0pc_server"
 
